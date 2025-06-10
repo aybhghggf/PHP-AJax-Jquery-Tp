@@ -1,6 +1,5 @@
 <?php 
 require_once 'config.php';
-var_dump($pdo);
 ?>
 <!DOCTYPE html>
 <html lang="en">

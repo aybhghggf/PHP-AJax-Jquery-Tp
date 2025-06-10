@@ -66,6 +66,7 @@ class Personne{
             $personneAuth['titre'],
             $personneAuth['password']
         );
+        $_SESSION['utilisateur'] = $utilisateur;
         return $utilisateur;
         header('location:welcome.php');
     } else {
@@ -75,6 +76,7 @@ class Personne{
 }
     public function get_session(){
         session_start();
+        return $_SESSION['utilisateur'];
     }
     public function  findAll(){
         global $pdo;
