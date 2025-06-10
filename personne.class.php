@@ -1,4 +1,5 @@
 <?php 
+    require_once 'config.php'; // Configuration file
 class Personne{
     private $email ;
     private $nom ;
@@ -46,6 +47,40 @@ class Personne{
     }
     public function __toString(){
         return $this->prenom . ' ' . $this->nom . ' | ' . $this->email;
+    }
+    public function BienVenu($nom,$prenom){
+        echo "Bienvenue $nom $prenom";
+    }
+    public function authentifier($email, $password) {
+    global $pdo;
+    var_dump( $pdo);
+    $req = $pdo->prepare("SELECT * FROM personne WHERE email = ? AND password = ?");
+    $req->execute([$email, $password]);
+    $personneAuth = $req->fetch();
+
+    if ($personneAuth) {
+        $utilisateur = new Personne(
+            $personneAuth['email'],
+            $personneAuth['nom'],
+            $personneAuth['prenom'],
+            $personneAuth['titre'],
+            $personneAuth['password']
+        );
+        return $utilisateur;
+        header('location:welcome.php');
+    } else {
+        echo "Identifiant ou mot de passe incorrect.";
+        return null;
+    }
+}
+    public function get_session(){
+        session_start();
+    }
+    public function  findAll(){
+        global $pdo;
+        $req = $pdo->query("SELECT * FROM personne");
+        $users= $req-> fetchAll();
+        return $users;
     }
 }
 
